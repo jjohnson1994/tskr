@@ -12,10 +12,7 @@
 		<a href="/" class="inline-flex gap-1">
 			<Inbox strokeWidth={1.5} /> Staging
 		</a>
-		<p>links</p>
-		<a href="" class="inline-flex gap-1">
-			<Inbox strokeWidth={1.5} /> Staging
-		</a>
+		<p>schedule</p>
 		<a href="" class="inline-flex gap-1">
 			<Calendar1 strokeWidth={1.5} /> Today
 		</a>

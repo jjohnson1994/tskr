@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Calendar1, CalendarDays, Inbox } from 'lucide-svelte';
+	import { onMount } from 'svelte';
 	import type { LayoutData } from './$types';
 	import '../app.css';
 	import Todo from '../components/Todo.svelte';
@@ -9,6 +10,22 @@
 	let { data, children }: { data: LayoutData; children: Snippet } = $props();
 
 	let form;
+	let inputNewTodo;
+
+	onMount(() => {
+		const handleKeyUp = (event) => {
+			if (event.key === '/') {
+				inputNewTodo.focus();
+				console.log('Escape key pressed');
+			}
+		};
+
+		window.addEventListener('keyup', handleKeyUp);
+
+		return () => {
+			window.removeEventListener('keyup', handleKeyUp);
+		};
+	});
 </script>
 
 <svelte:head>
@@ -19,8 +36,8 @@
 <div class="flex min-h-screen grow flex-row">
 	<div class="container mx-auto space-y-8 px-6 pt-8">
 		<form method="post" action="?/create">
-			<Input name="title" placeholder="Create">
-				<Shortcut slot="postfix">SPACE</Shortcut>
+			<Input bind:this={inputNewTodo} name="title" placeholder="Create">
+				<Shortcut slot="postfix">/</Shortcut>
 			</Input>
 
 			<div class="@container">

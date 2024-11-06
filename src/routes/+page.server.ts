@@ -76,7 +76,7 @@ export const actions = {
     const form = await request.formData();
     const id = form.get("id");
     const projectId = form.get("project_id");
-    const done = form.get("done");
+    const done = form.get("done") ?? "false";
 
     db.prepare(`
       UPDATE tasks
