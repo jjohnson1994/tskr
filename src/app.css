@@ -19,7 +19,7 @@ nav>a:hover {
   @apply bg-zinc-200;
 }
 
-nav>p{
+nav>p {
   @apply text-sm mt-6 mb-4 text-slate-500;
 }
 
@@ -32,7 +32,7 @@ nav>p{
 }
 
 form {
-
+  @apply flex flex-col;
 }
 
 label {
@@ -40,6 +40,8 @@ label {
 }
 
 input,
+select,
+textarea,
 button {
   @apply border border-slate-200 py-2 px-4 rounded;
 }
@@ -48,7 +50,9 @@ button {
   @apply hover:shadow-md;
 }
 
-input {
+input,
+select,
+textarea {
   @apply w-full;
 }
 

@@ -7,7 +7,7 @@
 	let { data, children }: { data: LayoutData; children: Snippet } = $props();
 </script>
 
-<div class="app layout">
+<div class="layout">
 	<nav>
 		<a href="/" class="inline-flex gap-1">
 			<Inbox strokeWidth={1.5} /> Staging
@@ -29,7 +29,7 @@
 
 		<p>projects</p>
 		{#each data.projects as project}
-			<a href={`/list/${project.id}`}>{project.title}</a>
+			<a href={`?project_id=${project.id}`}>{project.title}</a>
 		{/each}
 		<a href="/new/list" class="text-slate-500">New +</a>
 	</nav>

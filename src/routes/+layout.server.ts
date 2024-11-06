@@ -1,5 +1,5 @@
-import Database from 'better-sqlite3';
-import type { LayoutServerLoad } from './$types';
+import Database from "better-sqlite3";
+import type { LayoutServerLoad } from "./$types";
 
 export const load: LayoutServerLoad = async () => {
   const db = new Database("test.db");
@@ -8,6 +8,6 @@ export const load: LayoutServerLoad = async () => {
   db.close();
 
   return {
-    projects
+    projects,
   };
 };

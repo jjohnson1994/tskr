@@ -8,7 +8,7 @@
 
 	let { data, children }: { data: LayoutData; children: Snippet } = $props();
 
-	console.log(data);
+	let form;
 </script>
 
 <svelte:head>
@@ -17,8 +17,8 @@
 </svelte:head>
 
 <div class="flex min-h-screen grow flex-row">
-	<div class="container mx-auto space-y-8 pt-8">
-		<form method="post">
+	<div class="container mx-auto space-y-8 px-6 pt-8">
+		<form method="post" action="?/create">
 			<Input name="title" placeholder="Create">
 				<Shortcut slot="postfix">SPACE</Shortcut>
 			</Input>
@@ -37,22 +37,42 @@
 
 		<div class="space-y-2">
 			{#each data.todos as todo}
-				<p>todo</p>
 				<Todo id={todo.id} title={todo.title} />
 			{/each}
 		</div>
 	</div>
 
 	{#if data.selected}
-		<div class="container mx-auto border-l border-slate-200 pt-8 shadow-lg">
+		<div class="container mx-auto border-l border-slate-200 px-6 pt-8 shadow-lg">
 			<div class="divide-y">
-				<form method="post" action="/update">
-					<label>
-						<input type="checkbox" />
-						Done
-					</label>
+				<form method="post" action={`?selected=${data.selected.id}&/update`} bind:this={form}>
+					<input hidden name="id" value={data.selected.id} />
+					<label for="done">done</label>
+					<input
+						type="checkbox"
+						name="done"
+						on:change={() => form.requestSubmit()}
+						checked={data.selected.done}
+					/>
+
+					<label for="title">title</label>
+					<input name="title" value={data.selected.title} />
+
+					<label for="description">description</label>
+					<textarea name="description" value={data.selected.description} />
+
+					<label for="project_id">project</label>
+					<select
+						name="project_id"
+						on:change={() => form.requestSubmit()}
+						value={data.selected.project_id}
+					>
+						<option value={null}>select</option>
+						{#each data.projects as project}
+							<option value={project.id}>{project.title}</option>
+						{/each}
+					</select>
 				</form>
-				<p class="text-xl font-semibold">{data.selected.title}</p>
 			</div>
 		</div>
 	{/if}
