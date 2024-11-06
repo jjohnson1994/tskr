@@ -1,5 +1,8 @@
 <script lang="ts">
 	import { Calendar1, CalendarDays, Inbox } from 'lucide-svelte';
+	import { fly, slide } from 'svelte/transition';
+	import { enhance } from '$app/forms';
+
 	import { onMount } from 'svelte';
 	import type { LayoutData } from './$types';
 	import '../app.css';
@@ -35,7 +38,7 @@
 
 <div class="flex min-h-screen grow flex-row">
 	<div class="container mx-auto space-y-8 px-6 pt-8">
-		<form method="post" action="?/create">
+		<form method="post" action="?/create" use:enhance>
 			<Input bind:this={inputNewTodo} name="title" placeholder="Create">
 				<Shortcut slot="postfix">/</Shortcut>
 			</Input>
@@ -54,7 +57,7 @@
 
 		<div class="space-y-2">
 			{#each data.todos as todo}
-				<Todo id={todo.id} title={todo.title} />
+				<div in:fly={{ y: 20 }} out:slide><Todo id={todo.id} title={todo.title} /></div>
 			{/each}
 		</div>
 	</div>
@@ -62,7 +65,12 @@
 	{#if data.selected}
 		<div class="container mx-auto border-l border-slate-200 px-6 pt-8 shadow-lg">
 			<div class="divide-y">
-				<form method="post" action={`?selected=${data.selected.id}&/update`} bind:this={form}>
+				<form
+					method="post"
+					action={`?selected=${data.selected.id}&/update`}
+					bind:this={form}
+					use:enhance
+				>
 					<input hidden name="id" value={data.selected.id} />
 					<label for="done">done</label>
 					<input
