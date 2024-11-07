@@ -2,8 +2,12 @@
 	import { page } from '$app/stores';
 	let { title, id }: { title: string; id: string } = $props();
 
-	const link = new URL($page.url);
-	link.searchParams.set('selected', id);
+	const link = $derived.by(() => {
+		const newUrl = new URL($page.url.href);
+		newUrl.searchParams.set('selected', id);
+
+		return newUrl;
+	});
 </script>
 
 <div>

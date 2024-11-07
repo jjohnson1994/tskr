@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { Calendar1, CalendarDays, Inbox } from 'lucide-svelte';
+	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
 	import { fly, slide } from 'svelte/transition';
 	import { enhance } from '$app/forms';
 
@@ -15,11 +17,23 @@
 	let form;
 	let inputNewTodo;
 
+	const deselectTodoUrl = $derived.by(() => {
+		const newUrl = new URL($page.url.href);
+		newUrl.searchParams.delete('selected');
+
+		return newUrl;
+	});
+
+	const deselectTodo = () => {
+		goto(deselectTodoUrl);
+	};
+
 	onMount(() => {
 		const handleKeyUp = (event) => {
 			if (event.key === '/') {
 				inputNewTodo.focus();
-				console.log('Escape key pressed');
+			} else if (event.key === 'Escape') {
+				deselectTodo();
 			}
 		};
 
@@ -64,6 +78,9 @@
 
 	{#if data.selected}
 		<div class="container mx-auto border-l border-slate-200 px-6 pt-8 shadow-lg">
+			<div class="flex justify-end">
+				<a href={deselectTodoUrl}><Shortcut>Esc</Shortcut></a>
+			</div>
 			<div class="divide-y">
 				<form
 					method="post"
